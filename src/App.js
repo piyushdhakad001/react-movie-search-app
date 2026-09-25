@@ -38,7 +38,33 @@ function App() {
       </div>
 
       <div className="movieInfo">
-        <p>{movieData?.Title}</p>
+        <p className="name">
+          {movieData?.Title}, {movieData?.Year}
+        </p>
+
+        <p className="rating">
+          ☆ {movieData?.Ratings?.[0]?.Value}
+        </p>
+
+        <p className="director">
+          {movieData?.Director}
+        </p>
+
+        <p className="writer">
+          {movieData?.Writer}
+        </p>
+
+        <p className="stars">
+          {movieData?.Actors}
+        </p>
+
+        <p className="genre">
+          {movieData?.Genre}
+        </p>
+
+        <p className="plot">
+          {movieData?.Plot}
+        </p>
       </div>
     </div>
   );
