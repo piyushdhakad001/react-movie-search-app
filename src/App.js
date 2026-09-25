@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
   const [movieName, setMovieName] = useState("");
   const [movieData, setMovieData] = useState(null);
+
+  useEffect(() => {
+    const savedMovieData = JSON.parse(
+      localStorage.getItem("movieData")
+    );
+
+    if (savedMovieData) {
+      setMovieData(savedMovieData);
+    }
+  }, []);
 
   const getMovieInfo = async (movieName) => {
     const response = await fetch(
@@ -13,7 +23,13 @@ function App() {
     const data = await response.json();
 
     console.log(data);
+
     setMovieData(data);
+
+    localStorage.setItem(
+      "movieData",
+      JSON.stringify(data)
+    );
   };
 
   const handleClick = () => {
@@ -32,7 +48,10 @@ function App() {
           onChange={(e) => setMovieName(e.target.value)}
         />
 
-        <button className="search" onClick={handleClick}>
+        <button
+          className="search"
+          onClick={handleClick}
+        >
           Search
         </button>
       </div>
