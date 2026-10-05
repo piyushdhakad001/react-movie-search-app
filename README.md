@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# React Movie Search App 🎬
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A movie search web app built with React and the OMDb API. Search any title to see its IMDb rating, runtime, director, writer, cast, genre, and plot.
 
-## Available Scripts
+## Live Demo
+🔗 [View Live Application](https://react-movie-search-app-umber.vercel.app/)
 
-In the project directory, you can run:
+## Screenshot
 
-### `npm start`
+![React Movie Search App Preview](screenshot.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
+- **OMDb API Integration:** Fetches movie details (title, rating, runtime, director, writer, stars, genre, plot) with async/await.
+- **Error Handling:** Handles empty input, movies that aren't found, and network failures, and encodes special characters in titles (e.g. "Fast & Furious").
+- **Persistent LocalStorage:** Saves your last search and shows it again when you revisit the app.
+- **State Management:** Built with React functional components and hooks (`useState`, `useEffect`).
+- **Keyboard Support:** Press `Enter` to search, or click the Search button.
+- **Responsive Design:** Works on desktop and mobile screens.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
+- **React** (Create React App)
+- **CSS3** (Flexbox, media queries)
+- **JavaScript (ES6+)** (async/await, Fetch API, React Hooks, localStorage)
+- **OMDb API**
+- **Vercel** (deployment)
 
-### `npm test`
+## Getting Started Locally
+1. Clone the repository:
+```bash
+   git clone https://github.com/piyushdhakad001/react-movie-search-app.git
+   cd react-movie-search-app
+```
+2. Install dependencies:
+```bash
+   npm install
+```
+3. Get a free API key from [omdbapi.com](https://www.omdbapi.com/apikey.aspx) and replace the key in the request URL inside `fetchData()` in `src/App.js`.
+4. Start the app:
+```bash
+   npm start
+```
+5. Open `http://localhost:3000`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Note
+This project started as a vanilla JavaScript app and was rebuilt in React. The API key is visible in client-side code, which is normal for OMDb's free tier. Never do this with a paid or private key.
