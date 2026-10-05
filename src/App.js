@@ -4,38 +4,55 @@ import "./App.css";
 function App() {
   const [movieName, setMovieName] = useState("");
   const [movieData, setMovieData] = useState(null);
+  const [loading, setLoading] = useState("");
 
+  // restore last search on page load
   useEffect(() => {
-    const savedMovieData = JSON.parse(
-      localStorage.getItem("movieData")
-    );
+    const lastMovieName = localStorage.getItem("movie");
+    const lastMovieDetails = localStorage.getItem("data");
 
-    if (savedMovieData) {
-      setMovieData(savedMovieData);
+    if (lastMovieName && lastMovieDetails) {
+      setMovieName(lastMovieName);
+      setMovieData(JSON.parse(lastMovieDetails));
     }
   }, []);
 
-  const getMovieInfo = async (movieName) => {
-    const response = await fetch(
-      `http://www.omdbapi.com/?t=${movieName}&apikey=44fd002`
-    );
+  const fetchData = async () => {
+    const movie = movieName.trim();
 
-    const data = await response.json();
+    if (!movie) {
+      setLoading("");
+      alert("Enter movie name");
+      return;
+    }
 
-    console.log(data);
+    setLoading("Movie fetching.....");
 
-    setMovieData(data);
+    try {
+      const url = `https://www.omdbapi.com/?t=${encodeURIComponent(movie)}&apikey=44fd002`;
+      const response = await fetch(url);
+      const data = await response.json();
 
-    localStorage.setItem(
-      "movieData",
-      JSON.stringify(data)
-    );
+      if (data.Response === "False") {
+        setLoading("");
+        alert("Movie not found!");
+        return;
+      }
+
+      localStorage.setItem("movie", movie);
+      localStorage.setItem("data", JSON.stringify(data));
+
+      setLoading("");
+      setMovieData(data);
+    } catch (err) {
+      setLoading("Something went wrong. Check your connection.");
+    }
   };
 
-  const handleClick = () => {
-    console.log(movieName);
-    getMovieInfo(movieName);
-  };
+  const rating =
+    movieData?.imdbRating && movieData.imdbRating !== "N/A"
+      ? `${movieData.imdbRating}/10`
+      : "Not rated";
 
   return (
     <div className="container">
@@ -43,47 +60,36 @@ function App() {
         <input
           type="text"
           className="input"
-          placeholder="Enter movie name"
+          placeholder="Enter movie name..."
           value={movieName}
           onChange={(e) => setMovieName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") fetchData();
+          }}
         />
 
-        <button
-          className="search"
-          onClick={handleClick}
-        >
+        <button className="search" onClick={fetchData}>
           Search
         </button>
       </div>
 
-      <div className="movieInfo">
-        <p className="name">
-          {movieData?.Title}, {movieData?.Year}
-        </p>
+      <div className="loading">{loading}</div>
 
-        <p className="rating">
-          ☆ {movieData?.Ratings?.[0]?.Value}
-        </p>
-
-        <p className="director">
-          {movieData?.Director}
-        </p>
-
-        <p className="writer">
-          {movieData?.Writer}
-        </p>
-
-        <p className="stars">
-          {movieData?.Actors}
-        </p>
-
-        <p className="genre">
-          {movieData?.Genre}
-        </p>
-
-        <p className="plot">
-          {movieData?.Plot}
-        </p>
+      <div className="movie-container">
+        {movieData && (
+          <div>
+            <p>
+              {movieData.Title}, ({movieData.Year}) on IMDB
+            </p>
+            <p>☆ {rating}</p>
+            <p>Duration..... {movieData.Runtime}</p>
+            <p>Director..... {movieData.Director}</p>
+            <p>Writer....... {movieData.Writer}</p>
+            <p>Stars........ {movieData.Actors}</p>
+            <p>Genre........ {movieData.Genre}</p>
+            <p>Plot......... {movieData.Plot}</p>
+          </div>
+        )}
       </div>
     </div>
   );

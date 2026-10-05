@@ -1,0 +1,116 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #eef0f4;
+  color: #222;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 700px;
+  min-height: 60vh;
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #c8ccd4;
+  border-radius: 8px;
+}
+
+/* ---------- search bar ---------- */
+.search-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #b5bac4;
+  border-radius: 5px;
+}
+
+.input:focus {
+  border-color: #2f5fa8;
+  outline: none;
+}
+
+.search {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: #2f5fa8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search:hover {
+  background: #244b86;
+}
+
+/* ---------- loading text ---------- */
+.loading {
+  color: green;
+  margin-top: 10px;
+}
+
+/* ---------- movie details ---------- */
+.movie-container {
+  margin-top: 20px;
+}
+
+.movie-container div:not(.loading) {
+  background: #f5f7fa;
+  border: 1px solid #d5d9e0;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.movie-container p {
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 4px 0;
+  word-break: break-word;
+}
+
+/* first line is the title, second is the rating */
+.movie-container div:not(.loading) p:first-child {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2f5fa8;
+}
+
+.movie-container div:not(.loading) p:nth-child(2) {
+  font-weight: bold;
+  color: #b07a00;
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 500px) {
+  .container {
+    padding: 12px;
+  }
+
+  .input,
+  .search {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .movie-container p {
+    font-size: 14px;
+  }
+
+  .movie-container div:not(.loading) p:first-child {
+    font-size: 18px;
+  }
+}
