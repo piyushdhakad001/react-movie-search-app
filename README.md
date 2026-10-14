@@ -1,72 +1,137 @@
-# React Movie Search App 🎬
+# 🎬 Movie Search
 
-A movie search web app built with React and the OMDb API. Search for a title, browse the results in a grid, open any movie to see its IMDb rating, runtime, director, writer, cast, genre, and full plot, and save your favourites.
+> Search any movie, read its IMDb details, and save your favourites. A full-stack app built with React and Express, powered by the OMDb API.
 
-## Live Demo
-🔗 [View Live Application](https://react-movie-search-app-umber.vercel.app/)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![OMDb API](https://img.shields.io/badge/API-OMDb-F5C518)
 
-## Screenshots
+![Movie Search screenshot](screenshot.png)
 
-| Search results | Movie details |
+---
+
+## ✨ Features
+
+- 🔍 **Search movies** by title and browse results in a poster grid
+- 📄 **Detailed view** with rating, runtime, genre, director, writer, cast and full plot
+- ❤️ **Favourites** saved on the server, so they survive refreshes and cleared browser data
+- 🕘 **Recent searches** (last 5) for one-click repeat searches
+- ⚠️ Clear **loading and error states** (no results, too many results, network problems)
+- 🖼️ **Poster fallback** when a movie has no image
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
 |---|---|
-| ![Search results](./screenshots/screenshot-results.png) | ![Movie details](./screenshots/screenshot-details.png) |
+| Frontend | React (hooks, component-based UI), CSS |
+| Backend | Node.js, Express |
+| Data source | [OMDb API](https://www.omdbapi.com/) |
+| Storage | JSON file (favourites), `localStorage` (recent searches) |
 
-## Features
-- **Search with Results Grid:** Searches the OMDb API by title and shows matching movies as poster cards.
-- **Movie Details View:** Click any card to fetch full details (rating, runtime, director, writer, stars, genre, plot) with a second API call by IMDb ID, and go back to your results without searching again.
-- **Favourites:** Add or remove movies from a favourites list using the heart button on cards or in the details view. Favourites are saved in `localStorage` and survive page refreshes.
-- **Recent Searches:** Keeps your last 5 searches as clickable chips for one-click re-searching.
-- **Error Handling:** Handles empty input, "too many results", movies that aren't found, and network failures, and encodes special characters in titles (e.g. "Fast & Furious").
-- **Loading States and Fallbacks:** Shows loading messages while fetching and a placeholder when a movie has no poster.
-- **Accessible Markup:** Semantic buttons for cards, `aria-label`s, and `aria-live` messages for errors and loading.
-- **Responsive Design:** Works on desktop and mobile screens.
+## 🧱 Architecture
 
-## Tech Stack
-- **React** (Create React App), using functional components and hooks (`useState`, `useEffect`)
-- **JavaScript (ES6+):** async/await, Fetch API, `localStorage`
-- **CSS3:** Flexbox, Grid, media queries
-- **OMDb API**
-- **Vercel** (deployment)
+```
+React (:3000)  ──/api/*──▶  Express (:5000)  ──▶  OMDb API
+                                  │
+                                  └──▶ favorites.json
+```
 
-## What I Practised
-- Two-step data fetching: list endpoint (`?s=`) followed by a detail endpoint (`?i=`)
-- Managing multiple pieces of related state (results, selected movie, loading, errors, favourites)
-- Persisting state to `localStorage` safely (lazy state initialisation with `try/catch`)
-- Reusing one render function for both search results and favourites
-- Keeping the API key out of source code with environment variables
+The Express server acts as a **proxy**, so the OMDb API key stays on the server and is never exposed in the browser bundle.
 
-## Getting Started Locally
-1. Clone the repository:
+## 📁 Project Structure
+
+```
+movie-search-app/
+├─ public/
+├─ server/
+│  ├─ index.js            # Express routes (OMDb proxy + favourites)
+│  ├─ .env                # OMDB_KEY (not committed)
+│  └─ package.json
+├─ src/
+│  ├─ components/
+│  │  ├─ SearchBar.jsx
+│  │  ├─ Tabs.jsx
+│  │  ├─ RecentSearches.jsx
+│  │  ├─ MovieGrid.jsx
+│  │  ├─ MovieCard.jsx
+│  │  └─ MovieDetails.jsx
+│  ├─ App.jsx             # State and API calls
+│  ├─ App.css
+│  └─ utils.js
+└─ package.json
+```
+
+`App.jsx` owns the state and logic; the components only render UI and receive data and handlers as props.
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 18 or newer
+- A free OMDb API key from [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx)
+
+### Installation
+
 ```bash
-   git clone https://github.com/piyushdhakad001/react-movie-search-app.git
-   cd react-movie-search-app
+# 1. Install frontend dependencies
+npm install
+
+# 2. Install backend dependencies
+cd server
+npm install
+cd ..
 ```
-2. Install dependencies:
+
+### Configuration
+
+Create `server/.env`:
+
+```env
+OMDB_KEY=your_api_key_here
+```
+
+### Run the app
+
+Open **two terminals**:
+
 ```bash
-   npm install
-```
-3. Get a free API key from [omdbapi.com](https://www.omdbapi.com/apikey.aspx).
-4. Create a `.env` file in the project root (you can copy `.env.example`) and add your key:
-```
-   REACT_APP_OMDB_KEY=your_api_key_here
-```
-5. Start the app:
-```bash
-   npm start
-```
-6. Open `http://localhost:3000`.
+# Terminal 1: backend (http://localhost:5000)
+cd server
+node index.js
 
-## Project Structure
-```
-src/
-├── App.js     # State, API calls, and UI
-└── App.css    # Styles
+# Terminal 2: frontend (http://localhost:3000)
+npm start
 ```
 
-## Future Improvements
-- Pagination or a "Load more" button for search results
-- Splitting `App.js` into smaller components (`SearchBar`, `MovieCard`, `MovieDetails`)
-- Debounced search-as-you-type
+The frontend forwards `/api/*` requests to the backend using the `"proxy"` setting in the root `package.json`.
 
-## Note
-This project started as a vanilla JavaScript app and was rebuilt in React. The API key is stored in an environment variable, but because this is a client-side app it is still included in the browser bundle, which is acceptable for OMDb's free tier. Never do this with a paid or private key; use a backend or serverless function instead.
+## 🔌 API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/search?q=<title>` | Search movies by title |
+| `GET` | `/api/movie/:id` | Get full details for one movie (IMDb ID) |
+| `GET` | `/api/favorites` | List saved favourites |
+| `POST` | `/api/favorites` | Add a favourite |
+| `DELETE` | `/api/favorites/:id` | Remove a favourite |
+
+## ⚠️ Known Limitations
+
+- Favourites are shared by everyone using the server (no user accounts yet)
+- A JSON file is used instead of a real database to keep the backend minimal
+- Search returns only the first page of OMDb results (10 movies)
+
+## 🗺️ Roadmap
+
+- [ ] Pagination / "Load more"
+- [ ] Cancel outdated requests with `AbortController`
+- [ ] User accounts, so each user has their own favourites
+- [ ] Move favourites to MongoDB or SQLite
+- [ ] Tests with React Testing Library
+
+## 👤 Author
+
+Built by **Piyush** as part of a self-taught journey into full-stack web development.
+
+Data provided by the [OMDb API](https://www.omdbapi.com/).
