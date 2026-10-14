@@ -13,6 +13,8 @@
 
 # misc
 .env
+server/.env
+server/favorites.json
 .DS_Store
 .env.local
 .env.development.local

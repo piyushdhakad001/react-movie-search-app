@@ -1,0 +1,1 @@
+export const clean = (value) => (value && value !== "N/A" ? value : "Not available");
