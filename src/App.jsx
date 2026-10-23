@@ -7,6 +7,8 @@ import RecentSearches from "./components/RecentSearches";
 import MovieGrid from "./components/MovieGrid";
 import MovieDetails from "./components/MovieDetails";
 
+const API = "https://react-movie-search-app-1d8b.onrender.com";
+
 function App() {
   // ---------- STATE ----------
   const [query, setQuery] = useState("");
@@ -23,7 +25,7 @@ function App() {
 
   // ---------- LOAD FAVOURITES FROM SERVER (once) ----------
   useEffect(() => {
-    fetch("/api/favorites")
+    fetch(API + "/api/favorites")
       .then((res) => res.json())
       .then((data) => setFavorites(data));
   }, []);
@@ -38,7 +40,7 @@ function App() {
       Year: movie.Year,
       Poster: movie.Poster,
     };
-    await fetch("/api/favorites", {
+    fetch(API + "/api/favorites", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fav),
@@ -47,7 +49,7 @@ function App() {
   };
 
   const removeFavorite = async (movie) => {
-    await fetch(`/api/favorites/${movie.imdbID}`, { method: "DELETE" });
+    fetch(`${API}/api/favorites/${movie.imdbID}`, { method: "DELETE" });
     setFavorites(favorites.filter((m) => m.imdbID !== movie.imdbID));
   };
 
@@ -80,7 +82,7 @@ function App() {
     setShowFavorites(false);
 
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(term.trim())}`);
+      const res = await fetch(`${API}/api/search?q=${encodeURIComponent(term.trim())}`);
       const data = await res.json();
 
       if (data.Response === "False") {
@@ -103,7 +105,7 @@ function App() {
     setError("");
 
     try {
-      const res = await fetch(`/api/movie/${imdbID}`);
+      const res = await	fetch(`${API}/api/movie/${imdbID}`);
       const data = await res.json();
 
       if (data.Response === "False") {
