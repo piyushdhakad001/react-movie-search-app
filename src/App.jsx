@@ -141,7 +141,7 @@ function App() {
   return (
     <div className="container">
       <header className="header">
-        <h1>🎬 Movie Search</h1>
+        <h1>Movie Search</h1>
         <p>Search any movie and get its IMDb details instantly.</p>
       </header>
 

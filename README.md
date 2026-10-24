@@ -7,8 +7,8 @@
 ![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
 ![OMDb API](https://img.shields.io/badge/API-OMDb-F5C518)
 
-![Movie Search screenshot](screenshot.png)
-
+![Movie Search screenshot](screenshots/Screenshot.png)
+![Movie Search screenshot](screenshots/Screenshot-details.png)
 ---
 
 ## ✨ Features
